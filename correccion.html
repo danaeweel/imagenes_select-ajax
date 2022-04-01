@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+
+    <script>
+        function cargardesplegable()
+        {
+            var a="pepe";
+            var xhr=new XMLHttpRequest();
+            xhr.onreadystatechange=function()
+            {
+                if(xhr.readyState==4 && xhr.status==200)
+                {
+                    //tengo la respuesta completa xq el rdy state es 4 y la respuesta completa
+                    //xq el status es 200
+                    var linea_rutas=xhr.responseText;
+                    var lista_rutas=linea_rutas.split(",");
+                    var objeto_select=document.createElement("select");
+                    objeto_select.onchange=cambiarimagen;
+                    for(i=0; i<lista_rutas.length; i++)
+                    {
+                        var obj_option=document.createComment("option");
+                        obj_option.value=lista_rutas[i];
+                        obj_option.innerHTML="Imagen" +(i+1);
+                        objeto_select.appendChild(obj_option);
+
+                    }
+                
+                    //document.getElementsByTagName("body")[0];
+                    document.body.appendChild(objeto_select);
+                }
+            }
+            xhr.open("GET", "rutas_imagenes.txt");
+            xhr.send();
+        }
+        function cambiarimagen()
+        {
+            // a ver si existe la imagen
+            var imagen=document.getElementById("imagen");
+            if(imagen==null)
+            {
+                //no existe la imagen
+
+            var obj_imagen=document.createElement("img");
+            obj_imagen.id="imagen";
+            var ruta_imagen=document.getElementsByTagName("select")[0].value;
+            obj_imagen.src=ruta_imagen;
+            document.body.appendChild(obj_imagen);
+            }
+            else
+            {
+                imagen.src=document.getElementsByTagName("select")[0].value;
+            }
+        }
+    </script>
+</head>
+<body onload="cargardesplegable();">
+    
+</body>
+</html>
